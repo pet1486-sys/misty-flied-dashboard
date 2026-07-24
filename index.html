@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pool Villa Booking Dashboard</title>
+    <title>Misty Field Poolvilla ข้อมูลการจอง</title>
     <!-- Google Fonts: Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -199,7 +199,7 @@
             color: var(--text-main);
         }
 
-        /* 📌 กรอบหมายเหตุสีแดงเล็กๆ ข้างชื่อลูกค้า */
+        /* กรอบหมายเหตุสีแดงเล็กๆ ข้างชื่อลูกค้า */
         .note-badge {
             font-size: 0.65rem;
             color: var(--danger);
@@ -236,6 +236,13 @@
         .booking-detail i {
             font-size: 0.7rem;
             color: #94a3b8;
+        }
+
+        /* สไตล์สำหรับเตือนเบอร์โทรว่าง */
+        .no-phone {
+            color: var(--danger);
+            font-weight: 700;
+            font-size: 0.85rem;
         }
 
         .finance-box {
@@ -323,11 +330,11 @@
 
 <div class="container">
 
-    <!-- Header -->
+    <!-- Header (ปรับเปลี่ยนข้อความหัวเว็บ) -->
     <header class="app-header">
         <h1 class="app-title">
             <i class="fa-solid fa-house-chimney-window" style="color: var(--primary-color);"></i>
-            ระบบจัดการจองพูลวิลล่า
+            Misty Field Poolvilla ข้อมูลการจอง
         </h1>
     </header>
 
@@ -425,16 +432,18 @@
         return parseFloat(numStr.replace(/,/g, '')) || 0;
     }
 
+    // 📌 ฟังก์ชันจัดรูปแบบเบอร์โทรศัพท์ (หากไม่มีตัวเลขจะคืนค่าเป็นเครื่องหมาย !)
     function formatPhoneNumber(phone) {
-        if (!phone) return 'ไม่ได้ระบุ';
+        if (!phone) return '<span class="no-phone">!</span>';
         const cleaned = phone.replace(/\D/g, '');
+        if (!cleaned) return '<span class="no-phone">!</span>'; // กรณีในวงเล็บว่างเปล่า
         if (cleaned.length === 10 && cleaned.startsWith('0')) {
             return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
         }
         if (cleaned.length === 9 && cleaned.startsWith('0')) {
             return `${cleaned.slice(0, 2)}-${cleaned.slice(2, 5)}-${cleaned.slice(5)}`;
         }
-        return phone;
+        return cleaned;
     }
 
     async function loadDashboard() {
@@ -463,25 +472,22 @@
                 });
             });
 
-            // 2. ดึงข้อมูลรายละเอียดลูกค้าและการเงิน (รองรับการระบุราคาและข้อความหมายเหตุหลัง /)
+            // 2. ดึงข้อมูลรายละเอียดลูกค้าและการเงิน
             rawBookingData = (dataDetail.items || []).map(event => {
                 const rawSummary = (event.summary || '').trim();
                 const desc = event.description || '';
 
-                // แยกหมายเหตุด้วยเครื่องหมาย /
                 const [summaryPart, notePart] = rawSummary.split('/');
                 const summary = summaryPart ? summaryPart.trim() : '';
                 const note = notePart ? notePart.trim() : '';
 
                 let customerName = 'ไม่ระบุชื่อ';
-                let phone = 'ไม่ได้ระบุ';
+                let phone = '';
                 let depositPrice = 0;
                 let remainingPrice = 0;
                 let totalPrice = 0;
 
-                // 📌 รองรับรูปแบบใหม่ที่มีคำว่า "ราคา": ชื่อ(เบอร์)ราคาXจ่ายYค้างZ
                 const patternWithPrice = /^(.*?)\((.*?)\)ราคา([\d,]+)(?:จ่าย|มัดจำ)([\d,]+)ค้าง([\d,]+)/;
-                // 📌 รองรับรูปแบบเดิม: ชื่อ(เบอร์)จ่ายYค้างZ
                 const patternOldFormat = /^(.*?)\((.*?)\)(?:จ่าย|มัดจำ)([\d,]+)ค้าง([\d,]+)/;
 
                 const matchPrice = summary.match(patternWithPrice);
@@ -490,7 +496,7 @@
                 if (matchPrice) {
                     customerName = matchPrice[1].trim();
                     phone = matchPrice[2].trim();
-                    totalPrice = parseAmount(matchPrice[3]); // อ่านราคารวมตรงๆ จากที่ระบุ
+                    totalPrice = parseAmount(matchPrice[3]);
                     depositPrice = parseAmount(matchPrice[4]);
                     remainingPrice = parseAmount(matchPrice[5]);
                 } else if (matchOld) {
@@ -498,7 +504,7 @@
                     phone = matchOld[2].trim();
                     depositPrice = parseAmount(matchOld[3]);
                     remainingPrice = parseAmount(matchOld[4]);
-                    totalPrice = depositPrice + remainingPrice; // รวมให้อัตโนมัติหากไม่ได้ใส่มาราคา
+                    totalPrice = depositPrice + remainingPrice;
                 } else {
                     const [name, price] = summary.split('|');
                     customerName = name ? name.trim() : 'ไม่ระบุชื่อ';
@@ -507,7 +513,7 @@
                     const phoneMatch = desc.match(/โทร:\s*([0-9-]+)/);
                     const depositMatch = desc.match(/(?:มัดจำ|จ่าย):\s*([\d,]+)/);
 
-                    phone = phoneMatch ? phoneMatch[1] : 'ไม่ได้ระบุ';
+                    phone = phoneMatch ? phoneMatch[1] : '';
                     depositPrice = depositMatch ? parseAmount(depositMatch[1]) : 0;
                     remainingPrice = totalPrice - depositPrice;
                 }
@@ -525,7 +531,7 @@
 
                 return {
                     title: customerName,
-                    note: note, // หมายเหตุหลัง /
+                    note: note,
                     price: totalPrice,
                     deposit: depositPrice,
                     remaining: remainingPrice,
@@ -581,10 +587,8 @@
             return itemMonth === selectedMonth && itemYear === selectedYear;
         });
 
-        // เรียงลำดับรายการตามวันที่เช็คอิน (จากน้อยไปมาก)
         filteredList.sort((a, b) => a.startDateObj - b.startDateObj);
 
-        // รวมยอดจากช่อง "จ่ายแล้ว" (deposit) ของทุกรายการเพื่อแสดงเป็นยอดขายจริง
         filteredList.forEach(item => {
             sumRealSales += item.deposit;
         });
@@ -614,7 +618,6 @@
             const badgeClass = isFullyPaid ? 'badge-paid' : 'badge-pending';
             const badgeText = isFullyPaid ? 'จ่ายแล้ว' : 'ค้างชำระ';
 
-            // กรอบหมายเหตุสีแดงเล็กๆ (แสดงเฉพาะเมื่อมีหมายเหตุ)
             const noteHtml = item.note ? `<span class="note-badge"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : '';
 
             const card = document.createElement('div');
