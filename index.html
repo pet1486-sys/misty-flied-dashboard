@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool Villa Booking Dashboard</title>
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FullCalendar JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #f4f7fe;
+            --primary-color: #4318ff;
+            --primary-hover: #3311db;
+            --card-bg: #ffffff;
+            --text-main: #1b2559;
+            --success: #05cd99;
+            --danger: #ee5d50;
+            --border-radius: 14px;
+            --shadow: 0px 8px 24px rgba(112, 144, 176, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header Bar */
+        .app-header {
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .app-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* ตัวกรองเลือกเดือน/ปี + แสดงยอดขายจริงประจำเดือน */
+        .month-filter-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .select-input {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            background: #f8fafc;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-today {
+            background: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        /* กล่องแสดงยอดขายจริง */
+        .real-sales-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .real-sales-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .real-sales-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+        }
+
+        .section-header {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-main);
+        }
+
+        /* การ์ดรายละเอียดลูกค้า */
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 8px;
+        }
+
+        .booking-card {
+            background: var(--card-bg);
+            border: 1px solid #f0f3f8;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
+            gap: 6px;
+        }
+
+        .customer-name-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .customer-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* 📌 กรอบหมายเหตุสีแดงเล็กๆ ข้างชื่อลูกค้า */
+        .note-badge {
+            font-size: 0.65rem;
+            color: var(--danger);
+            background: #ffebeb;
+            border: 1px solid #fca5a5;
+            padding: 1px 6px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .status-badge {
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-paid { background: #e6faf5; color: var(--success); }
+        .badge-pending { background: #ffebeb; color: var(--danger); }
+
+        .booking-detail {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .booking-detail i {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .finance-box {
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 6px;
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .f-item { display: flex; flex-direction: column; }
+        .f-label { font-size: 0.6rem; color: #94a3b8; }
+        .f-amount { font-size: 0.8rem; font-weight: 700; }
+
+        .f-total { color: var(--text-main); }
+        .f-deposit { color: var(--success); }
+        .f-remaining { color: var(--danger); }
+
+        /* FullCalendar Custom CSS */
+        .fc {
+            --fc-border-color: #f0f3f8;
+            --fc-button-bg-color: var(--primary-color);
+            --fc-button-border-color: var(--primary-color);
+            --fc-button-hover-bg-color: var(--primary-hover);
+            --fc-button-hover-border-color: var(--primary-hover);
+        }
+
+        .fc .fc-toolbar-title {
+            font-size: 0.95rem !important;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .fc .fc-button {
+            padding: 3px 8px !important;
+            font-size: 0.75rem !important;
+            border-radius: 6px !important;
+        }
+
+        .fc .fc-col-header-cell {
+            padding: 4px 0 !important;
+            background: #f8fafc;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .fc .fc-daygrid-day-number {
+            font-size: 0.75rem;
+            padding: 2px 4px !important;
+        }
+
+        .fc-event {
+            border-radius: 4px !important;
+            padding: 1px 4px !important;
+            font-size: 0.7rem !important;
+            border: none !important;
+            margin-top: 1px !important;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+
+        .fc-event-title {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 15px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .booking-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <header class="app-header">
+        <h1 class="app-title">
+            <i class="fa-solid fa-house-chimney-window" style="color: var(--primary-color);"></i>
+            ระบบจัดการจองพูลวิลล่า
+        </h1>
+    </header>
+
+    <!-- ตัวกรองเลือกเดือน/ปี + กล่องแสดงยอดขายจริง -->
+    <div class="month-filter-card">
+        <div class="filter-row">
+            <div class="filter-label">
+                <i class="fa-regular fa-calendar-check" style="color: var(--primary-color);"></i>
+                ยอดขายประจำเดือน:
+            </div>
+            <div class="filter-controls">
+                <select id="month-select" class="select-input" onchange="filterDataByMonth()">
+                    <option value="0">มกราคม</option>
+                    <option value="1">กุมภาพันธ์</option>
+                    <option value="2">มีนาคม</option>
+                    <option value="3">เมษายน</option>
+                    <option value="4">พฤษภาคม</option>
+                    <option value="5">มิถุนายน</option>
+                    <option value="6">กรกฎาคม</option>
+                    <option value="7">สิงหาคม</option>
+                    <option value="8">กันยายน</option>
+                    <option value="9">ตุลาคม</option>
+                    <option value="10">พฤศจิกายน</option>
+                    <option value="11">ธันวาคม</option>
+                </select>
+                <select id="year-select" class="select-input" onchange="filterDataByMonth()"></select>
+                <button class="btn-today" onclick="setCurrentMonth()">เดือนนี้</button>
+            </div>
+        </div>
+
+        <!-- กล่องแสดงยอดขายจริง -->
+        <div class="real-sales-box">
+            <div class="real-sales-label">
+                <i class="fa-solid fa-circle-check"></i> ยอดขายจริง (ยอดรับเงินแล้ว)
+            </div>
+            <div class="real-sales-value" id="stat-real-sales">0 ฿</div>
+        </div>
+    </div>
+
+    <!-- รายละเอียดลูกค้าและการชำระเงิน -->
+    <div class="section-card">
+        <div class="section-header">
+            <i class="fa-solid fa-receipt" style="color: var(--primary-color);"></i>
+            รายละเอียดลูกค้าและการชำระเงิน
+        </div>
+        <div id="booking-list" class="booking-grid">
+            <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> กำลังโหลดข้อมูล...</div>
+        </div>
+    </div>
+
+    <!-- ปฏิทินวันจอง -->
+    <div class="section-card">
+        <div class="section-header" style="justify-content: center;">
+            <span>📅</span> ปฏิทินตารางวันจองพูลวิลล่า
+        </div>
+        <div id="calendar"></div>
+    </div>
+
+</div>
+
+<script>
+    const API_KEY = 'AIzaSyApYQzqrA0mGzDg8KkjDMEmCrQoP8mPz50';
+    const BOOKING_CALENDAR_ID = '114f5d0470d1d485a4710ddc0039eaf0df346f998b00d7f1600767af3f5d3f52@group.calendar.google.com';
+    const DETAIL_CALENDAR_ID = '3339f498c240dec24c783d3751f98e9e09f375e88d462dc4bf29ba571defecfd@group.calendar.google.com'; 
+
+    let rawBookingData = [];
+    let calendarInstance = null;
+
+    function initDateFilter() {
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const yearSelect = document.getElementById('year-select');
+
+        yearSelect.innerHTML = '';
+        for (let y = currentYear - 1; y <= currentYear + 2; y++) {
+            const opt = document.createElement('option');
+            opt.value = y;
+            opt.innerText = y + 543;
+            if (y === currentYear) opt.selected = true;
+            yearSelect.appendChild(opt);
+        }
+
+        document.getElementById('month-select').value = today.getMonth();
+    }
+
+    function setCurrentMonth() {
+        const today = new Date();
+        document.getElementById('month-select').value = today.getMonth();
+        document.getElementById('year-select').value = today.getFullYear();
+        filterDataByMonth();
+    }
+
+    function parseAmount(numStr) {
+        if (!numStr) return 0;
+        return parseFloat(numStr.replace(/,/g, '')) || 0;
+    }
+
+    function formatPhoneNumber(phone) {
+        if (!phone) return 'ไม่ได้ระบุ';
+        const cleaned = phone.replace(/\D/g, '');
+        if (cleaned.length === 10 && cleaned.startsWith('0')) {
+            return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+        }
+        if (cleaned.length === 9 && cleaned.startsWith('0')) {
+            return `${cleaned.slice(0, 2)}-${cleaned.slice(2, 5)}-${cleaned.slice(5)}`;
+        }
+        return phone;
+    }
+
+    async function loadDashboard() {
+        try {
+            initDateFilter();
+
+            const [resBooking, resDetail] = await Promise.all([
+                fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(BOOKING_CALENDAR_ID)}/events?key=${API_KEY}`),
+                fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(DETAIL_CALENDAR_ID)}/events?key=${API_KEY}`)
+            ]);
+
+            const dataBooking = await resBooking.json();
+            const dataDetail = await resDetail.json();
+
+            const combinedEvents = [];
+
+            // 1. ดึงแถบสถานะวันจองจากปฏิทินแรก
+            (dataBooking.items || []).forEach(event => {
+                const titleText = event.summary ? event.summary.split('|')[0].trim() : 'จองแล้ว';
+                combinedEvents.push({
+                    title: titleText,
+                    start: event.start.date || event.start.dateTime,
+                    end: event.end.date || event.end.dateTime,
+                    backgroundColor: '#ee5d50',
+                    borderColor: '#ee5d50'
+                });
+            });
+
+            // 2. ดึงข้อมูลรายละเอียดลูกค้าและการเงิน (รองรับการระบุราคาและข้อความหมายเหตุหลัง /)
+            rawBookingData = (dataDetail.items || []).map(event => {
+                const rawSummary = (event.summary || '').trim();
+                const desc = event.description || '';
+
+                // แยกหมายเหตุด้วยเครื่องหมาย /
+                const [summaryPart, notePart] = rawSummary.split('/');
+                const summary = summaryPart ? summaryPart.trim() : '';
+                const note = notePart ? notePart.trim() : '';
+
+                let customerName = 'ไม่ระบุชื่อ';
+                let phone = 'ไม่ได้ระบุ';
+                let depositPrice = 0;
+                let remainingPrice = 0;
+                let totalPrice = 0;
+
+                // 📌 รองรับรูปแบบใหม่ที่มีคำว่า "ราคา": ชื่อ(เบอร์)ราคาXจ่ายYค้างZ
+                const patternWithPrice = /^(.*?)\((.*?)\)ราคา([\d,]+)(?:จ่าย|มัดจำ)([\d,]+)ค้าง([\d,]+)/;
+                // 📌 รองรับรูปแบบเดิม: ชื่อ(เบอร์)จ่ายYค้างZ
+                const patternOldFormat = /^(.*?)\((.*?)\)(?:จ่าย|มัดจำ)([\d,]+)ค้าง([\d,]+)/;
+
+                const matchPrice = summary.match(patternWithPrice);
+                const matchOld = summary.match(patternOldFormat);
+
+                if (matchPrice) {
+                    customerName = matchPrice[1].trim();
+                    phone = matchPrice[2].trim();
+                    totalPrice = parseAmount(matchPrice[3]); // อ่านราคารวมตรงๆ จากที่ระบุ
+                    depositPrice = parseAmount(matchPrice[4]);
+                    remainingPrice = parseAmount(matchPrice[5]);
+                } else if (matchOld) {
+                    customerName = matchOld[1].trim();
+                    phone = matchOld[2].trim();
+                    depositPrice = parseAmount(matchOld[3]);
+                    remainingPrice = parseAmount(matchOld[4]);
+                    totalPrice = depositPrice + remainingPrice; // รวมให้อัตโนมัติหากไม่ได้ใส่มาราคา
+                } else {
+                    const [name, price] = summary.split('|');
+                    customerName = name ? name.trim() : 'ไม่ระบุชื่อ';
+                    totalPrice = parseAmount(price);
+
+                    const phoneMatch = desc.match(/โทร:\s*([0-9-]+)/);
+                    const depositMatch = desc.match(/(?:มัดจำ|จ่าย):\s*([\d,]+)/);
+
+                    phone = phoneMatch ? phoneMatch[1] : 'ไม่ได้ระบุ';
+                    depositPrice = depositMatch ? parseAmount(depositMatch[1]) : 0;
+                    remainingPrice = totalPrice - depositPrice;
+                }
+
+                const startDateStr = event.start.date || event.start.dateTime;
+                const endDateStr = event.end.date || event.end.dateTime;
+
+                combinedEvents.push({
+                    title: customerName,
+                    start: startDateStr,
+                    end: endDateStr,
+                    backgroundColor: '#4318ff',
+                    borderColor: '#4318ff'
+                });
+
+                return {
+                    title: customerName,
+                    note: note, // หมายเหตุหลัง /
+                    price: totalPrice,
+                    deposit: depositPrice,
+                    remaining: remainingPrice,
+                    phone: formatPhoneNumber(phone),
+                    startDateObj: new Date(startDateStr),
+                    start: formatDate(startDateStr),
+                    end: formatDate(endDateStr)
+                };
+            });
+
+            renderUpperCalendar(combinedEvents);
+            filterDataByMonth();
+
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('booking-list').innerHTML = `
+                <div class="loading-state" style="color: var(--danger);">
+                    เกิดข้อผิดพลาดในการดึงข้อมูล
+                </div>`;
+        }
+    }
+
+    function renderUpperCalendar(events) {
+        const calendarEl = document.getElementById('calendar');
+        calendarInstance = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'th',
+            events: events,
+            aspectRatio: 1.5,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+            }
+        });
+        calendarInstance.render();
+    }
+
+    function filterDataByMonth() {
+        const selectedMonth = parseInt(document.getElementById('month-select').value);
+        const selectedYear = parseInt(document.getElementById('year-select').value);
+
+        if (calendarInstance) {
+            const targetDate = new Date(selectedYear, selectedMonth, 1);
+            calendarInstance.gotoDate(targetDate);
+        }
+
+        let sumRealSales = 0;
+
+        const filteredList = rawBookingData.filter(item => {
+            const itemMonth = item.startDateObj.getMonth();
+            const itemYear = item.startDateObj.getFullYear();
+            return itemMonth === selectedMonth && itemYear === selectedYear;
+        });
+
+        // เรียงลำดับรายการตามวันที่เช็คอิน (จากน้อยไปมาก)
+        filteredList.sort((a, b) => a.startDateObj - b.startDateObj);
+
+        // รวมยอดจากช่อง "จ่ายแล้ว" (deposit) ของทุกรายการเพื่อแสดงเป็นยอดขายจริง
+        filteredList.forEach(item => {
+            sumRealSales += item.deposit;
+        });
+
+        document.getElementById('stat-real-sales').innerText = sumRealSales.toLocaleString() + ' ฿';
+
+        renderFinancialList(filteredList);
+    }
+
+    function formatDate(isoString) {
+        if(!isoString) return '-';
+        const date = new Date(isoString);
+        return date.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function renderFinancialList(items) {
+        const container = document.getElementById('booking-list');
+        container.innerHTML = '';
+
+        if (items.length === 0) {
+            container.innerHTML = '<div class="loading-state">ไม่มีรายการจองในเดือนที่เลือก</div>';
+            return;
+        }
+
+        items.forEach(item => {
+            const isFullyPaid = item.remaining <= 0;
+            const badgeClass = isFullyPaid ? 'badge-paid' : 'badge-pending';
+            const badgeText = isFullyPaid ? 'จ่ายแล้ว' : 'ค้างชำระ';
+
+            // กรอบหมายเหตุสีแดงเล็กๆ (แสดงเฉพาะเมื่อมีหมายเหตุ)
+            const noteHtml = item.note ? `<span class="note-badge"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : '';
+
+            const card = document.createElement('div');
+            card.className = 'booking-card';
+            card.innerHTML = `
+                <div class="card-top">
+                    <div class="customer-name-group">
+                        <span class="customer-name">${item.title}</span>
+                        ${noteHtml}
+                    </div>
+                    <span class="status-badge ${badgeClass}">${badgeText}</span>
+                </div>
+                <div class="booking-detail">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>${item.start} - ${item.end}</span>
+                </div>
+                <div class="booking-detail">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>${item.phone}</span>
+                </div>
+                
+                <div class="finance-box">
+                    <div class="f-item">
+                        <span class="f-label">ราคารวม</span>
+                        <span class="f-amount f-total">${item.price.toLocaleString()}</span>
+                    </div>
+                    <div class="f-item">
+                        <span class="f-label">จ่ายแล้ว</span>
+                        <span class="f-amount f-deposit">${item.deposit.toLocaleString()}</span>
+                    </div>
+                    <div class="f-item">
+                        <span class="f-label">คงเหลือ</span>
+                        <span class="f-amount f-remaining">${item.remaining.toLocaleString()}</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    loadDashboard();
+</script>
+
+</body>
+</html>
