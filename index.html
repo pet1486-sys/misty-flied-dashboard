@@ -187,6 +187,88 @@
         .summary-box.paid .summary-value { color: var(--success); }
         .summary-box.remaining .summary-value { color: var(--danger); }
 
+        /* ส่วนแสดงสถิติวันในสัปดาห์ (จ.-อา.) */
+        .weekday-stat-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 8px 10px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .weekday-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .weekday-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .day-pill {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 6px 2px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .day-pill-name {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .day-pill-val {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* 📌 ปรับให้แยกแถวละช่องทาง ชัดเจน เห็นโลโก้ใหญ่ขึ้น */
+        .day-pill-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-top: 3px;
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 4px;
+            width: 100%;
+        }
+
+        .channel-sub-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .mini-icon {
+            width: 15px;
+            height: 15px;
+            object-fit: contain;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .fb-sub { color: var(--fb-color); }
+        .agoda-sub { color: var(--agoda-color); }
+
         /* Dashboard แยกตามช่องทาง (Agoda vs Facebook) */
         .channel-grid {
             display: grid;
@@ -561,6 +643,72 @@
             </div>
         </div>
 
+        <!-- สถิติแยกวัน จันทร์-อาทิตย์ (แยกบรรทัด FB และ Agoda ชัดเจน) -->
+        <div class="weekday-stat-box">
+            <div class="weekday-title">
+                <i class="fa-regular fa-calendar-days" style="color: var(--primary-color);"></i>
+                จำนวนวันเข้าพักแยกตามวันในสัปดาห์:
+            </div>
+            <div class="weekday-grid">
+                <div class="day-pill">
+                    <span class="day-pill-name">จ.</span>
+                    <span class="day-pill-val" id="day-val-1">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-1">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-1">0</span></div>
+                    </div>
+                </div>
+                <div class="day-pill">
+                    <span class="day-pill-name">อ.</span>
+                    <span class="day-pill-val" id="day-val-2">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-2">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-2">0</span></div>
+                    </div>
+                </div>
+                <div class="day-pill">
+                    <span class="day-pill-name">พ.</span>
+                    <span class="day-pill-val" id="day-val-3">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-3">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-3">0</span></div>
+                    </div>
+                </div>
+                <div class="day-pill">
+                    <span class="day-pill-name">พฤ.</span>
+                    <span class="day-pill-val" id="day-val-4">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-4">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-4">0</span></div>
+                    </div>
+                </div>
+                <div class="day-pill">
+                    <span class="day-pill-name">ศ.</span>
+                    <span class="day-pill-val" id="day-val-5">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-5">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-5">0</span></div>
+                    </div>
+                </div>
+                <div class="day-pill">
+                    <span class="day-pill-name">ส.</span>
+                    <span class="day-pill-val" id="day-val-6">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-6">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-6">0</span></div>
+                    </div>
+                </div>
+                <div class="day-pill">
+                    <span class="day-pill-name">อา.</span>
+                    <span class="day-pill-val" id="day-val-0">0</span>
+                    <div class="day-pill-breakdown">
+                        <div class="channel-sub-item fb-sub"><img src="images/fb.png" class="mini-icon" alt="FB" /><span id="day-fb-0">0</span></div>
+                        <div class="channel-sub-item agoda-sub"><img src="images/Agoda.png" class="mini-icon" alt="Agoda" /><span id="day-agoda-0">0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Dashboard แยกช่องทาง FB vs Agoda -->
         <div class="channel-grid">
             <!-- FB Card -->
@@ -709,7 +857,6 @@
         return date.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
-    // 📌 ฟังก์ชันคำนวณจำนวนวันที่เข้าพัก
     function calculateDays(startStr, endStr) {
         if (!startStr || !endStr) return 1;
         const startDate = new Date(startStr);
@@ -724,6 +871,11 @@
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays > 0 ? diffDays : 1;
         }
+    }
+
+    function cleanCustomerName(name) {
+        if (!name) return 'ไม่ระบุชื่อ';
+        return name.replace(/^(fb|agoda)\s*[\/-]?\s*/i, '').trim();
     }
 
     async function loadDashboard() {
@@ -744,7 +896,7 @@
             (dataBooking.items || []).forEach(event => {
                 const titleText = event.summary ? event.summary.split('|')[0].trim() : 'จอง';
                 combinedEvents.push({
-                    title: titleText,
+                    title: cleanCustomerName(titleText),
                     start: event.start.date || event.start.dateTime,
                     end: event.end.date || event.end.dateTime,
                     backgroundColor: '#ee5d50',
@@ -766,10 +918,10 @@
                 let channel = 'other';
                 if (/^agoda/i.test(summary)) {
                     channel = 'agoda';
-                    summary = summary.replace(/^agoda\s*\/\s*/i, '').trim();
+                    summary = summary.replace(/^agoda\s*[\/-]?\s*/i, '').trim();
                 } else if (/^fb/i.test(summary)) {
                     channel = 'fb';
-                    summary = summary.replace(/^fb\s*\/\s*/i, '').trim();
+                    summary = summary.replace(/^fb\s*[\/-]?\s*/i, '').trim();
                 }
 
                 let customerName = 'ไม่ระบุชื่อ';
@@ -785,20 +937,20 @@
                 const matchOld = summary.match(patternOldFormat);
 
                 if (matchPrice) {
-                    customerName = matchPrice[1].trim();
+                    customerName = cleanCustomerName(matchPrice[1]);
                     phone = matchPrice[2].trim();
                     totalPrice = parseAmount(matchPrice[3]);
                     depositPrice = parseAmount(matchPrice[4]);
                     remainingPrice = parseAmount(matchPrice[5]);
                 } else if (matchOld) {
-                    customerName = matchOld[1].trim();
+                    customerName = cleanCustomerName(matchOld[1]);
                     phone = matchOld[2].trim();
                     depositPrice = parseAmount(matchOld[3]);
                     remainingPrice = parseAmount(matchOld[4]);
                     totalPrice = depositPrice + remainingPrice;
                 } else {
                     const [name, price] = summary.split('|');
-                    customerName = name ? name.trim() : 'ไม่ระบุชื่อ';
+                    customerName = cleanCustomerName(name);
                     totalPrice = parseAmount(price);
 
                     const phoneMatch = desc.match(/โทร:\s*([0-9-]+)/);
@@ -831,6 +983,8 @@
                     remaining: remainingPrice,
                     phone: formatPhoneNumber(phone),
                     days: daysCount,
+                    startDateStr: startDateStr,
+                    endDateStr: endDateStr,
                     startDateObj: new Date(startDateStr),
                     start: formatDate(startDateStr, false),
                     end: formatDate(endDateStr, true)
@@ -881,6 +1035,10 @@
         let sumRealSales = 0;
         let sumRemaining = 0;
 
+        let weekdayCounts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+        let weekdayFbCounts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+        let weekdayAgodaCounts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+
         let channelStats = {
             fb: { count: 0, days: 0, total: 0, paid: 0, remaining: 0 },
             agoda: { count: 0, days: 0, total: 0, paid: 0, remaining: 0 }
@@ -904,6 +1062,16 @@
             sumTotalPrice += item.price;
             sumRealSales += item.deposit;
             sumRemaining += item.remaining;
+
+            // คำนวณวันเข้าพักแยกตามวันในสัปดาห์ (จ.-อา.) และจำแนกช่องทาง FB/Agoda
+            let curr = new Date(item.startDateStr);
+            for (let i = 0; i < item.days; i++) {
+                const dayOfWeek = curr.getDay(); // 0 = อาทิตย์, 1 = จันทร์, ...
+                weekdayCounts[dayOfWeek]++;
+                if (item.channel === 'fb') weekdayFbCounts[dayOfWeek]++;
+                if (item.channel === 'agoda') weekdayAgodaCounts[dayOfWeek]++;
+                curr.setDate(curr.getDate() + 1);
+            }
 
             if (item.channel === 'fb') {
                 channelStats.fb.count++;
@@ -933,6 +1101,13 @@
         document.getElementById('stat-total-sales').innerText = sumTotalPrice.toLocaleString() + ' ฿';
         document.getElementById('stat-real-sales').innerText = sumRealSales.toLocaleString() + ' ฿';
         document.getElementById('stat-remaining-sales').innerText = sumRemaining.toLocaleString() + ' ฿';
+
+        // อัปเดตสถิติสัปดาห์ (จ.-อา.) พร้อมใส่ตัวเลขข้างไอคอนโลโก้
+        for (let d = 0; d <= 6; d++) {
+            document.getElementById(`day-val-${d}`).innerText = weekdayCounts[d];
+            document.getElementById(`day-fb-${d}`).innerText = weekdayFbCounts[d];
+            document.getElementById(`day-agoda-${d}`).innerText = weekdayAgodaCounts[d];
+        }
 
         // อัปเดต Dashboard FB
         document.getElementById('fb-count').innerText = channelStats.fb.count + ' รายการ';
