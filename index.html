@@ -20,6 +20,9 @@
             --text-main: #1b2559;
             --success: #05cd99;
             --danger: #ee5d50;
+            --warning: #ffb547;
+            --agoda-color: #3252a8;
+            --fb-color: #1877f2;
             --border-radius: 14px;
             --shadow: 0px 8px 24px rgba(112, 144, 176, 0.08);
         }
@@ -59,7 +62,7 @@
             gap: 8px;
         }
 
-        /* ตัวกรองเลือกเดือน/ปี + แสดงยอดขายจริงประจำเดือน */
+        /* ตัวกรองเลือกเดือน/ปี */
         .month-filter-card {
             background: var(--card-bg);
             border-radius: 14px;
@@ -106,7 +109,7 @@
             cursor: pointer;
         }
 
-        .btn-today {
+        .btn-today, .btn-year {
             background: var(--primary-color);
             color: #ffffff;
             border: none;
@@ -115,33 +118,120 @@
             font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        /* กล่องแสดงยอดขายจริง */
-        .real-sales-box {
+        .btn-year {
+            background: #64748b;
+        }
+
+        .btn-today:hover { background: var(--primary-hover); }
+        .btn-year:hover { background: #475569; }
+
+        /* Summary Grid ยอดรวม 3 ช่อง */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .summary-box {
+            border-radius: 10px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .summary-box.total {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+        }
+
+        .summary-box.paid {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
+        }
+
+        .summary-box.remaining {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        .summary-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .summary-box.total .summary-label { color: #334155; }
+        .summary-box.paid .summary-label { color: #166534; }
+        .summary-box.remaining .summary-label { color: #991b1b; }
+
+        .summary-value {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .summary-box.total .summary-value { color: var(--text-main); }
+        .summary-box.paid .summary-value { color: var(--success); }
+        .summary-box.remaining .summary-value { color: var(--danger); }
+
+        /* Dashboard แยกตามช่องทาง (Agoda vs Facebook) */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .channel-card {
+            background: #f8fafc;
             border-radius: 10px;
-            padding: 8px 12px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .channel-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .channel-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .channel-header.fb { color: var(--fb-color); }
+        .channel-header.agoda { color: var(--agoda-color); }
+
+        /* 📌 ขยายขนาดโลโก้ให้ชัดเจน */
+        .channel-logo-img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .channel-stat-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-size: 0.72rem;
+            margin-bottom: 2px;
         }
 
-        .real-sales-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #166534;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .real-sales-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--success);
-        }
+        .channel-stat-label { color: #64748b; }
+        .channel-stat-val { font-weight: 600; }
 
         /* Section Cards */
         .section-card {
@@ -178,7 +268,6 @@
             transition: all 0.2s ease;
         }
 
-        /* 📌 สไตล์สำหรับรายการที่จ่ายครบแล้ว (ไฮไลต์สีเขียว) */
         .booking-card.card-paid-full {
             background-color: #f0fdf4;
             border: 1.5px solid #86efac;
@@ -198,6 +287,25 @@
             align-items: center;
             gap: 6px;
             flex-wrap: wrap;
+        }
+
+        /* 📌 ปรับขนาด Tag และโลโก้บนการ์ดลูกค้าให้ใหญ่ขึ้น */
+        .channel-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .channel-tag.fb { background-color: #e7f3ff; color: var(--fb-color); border: 1px solid #bcdcff; }
+        .channel-tag.agoda { background-color: #f0f4ff; color: var(--agoda-color); border: 1px solid #c7d7fe; }
+
+        .channel-tag .tag-img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
         }
 
         .customer-name {
@@ -273,7 +381,7 @@
         .f-deposit { color: var(--success); }
         .f-remaining { color: var(--danger); }
 
-        /* 📌 ปรับแต่ง FullCalendar ให้สวยงาม ฟิตพอดีมือถือ */
+        /* FullCalendar Custom Style */
         .fc {
             --fc-border-color: #e2e8f0;
             --fc-button-bg-color: var(--primary-color);
@@ -363,6 +471,7 @@
 
         @media (max-width: 480px) {
             body { padding: 4px; }
+            .summary-grid { grid-template-columns: 1fr; }
             .booking-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -379,15 +488,16 @@
         </h1>
     </header>
 
-    <!-- ตัวกรองเลือกเดือน/ปี + กล่องแสดงยอดขายจริง -->
+    <!-- ตัวกรอง + สรุปยอดขายรวมประจำเดือน/ปี -->
     <div class="month-filter-card">
         <div class="filter-row">
             <div class="filter-label">
                 <i class="fa-regular fa-calendar-check" style="color: var(--primary-color);"></i>
-                ยอดขายประจำเดือน:
+                <span id="filter-title-label">สรุปยอดขาย:</span>
             </div>
             <div class="filter-controls">
                 <select id="month-select" class="select-input" onchange="filterDataByMonth()">
+                    <option value="all">ทุกเดือน (รวมทั้งปี)</option>
                     <option value="0">มกราคม</option>
                     <option value="1">กุมภาพันธ์</option>
                     <option value="2">มีนาคม</option>
@@ -403,15 +513,79 @@
                 </select>
                 <select id="year-select" class="select-input" onchange="filterDataByMonth()"></select>
                 <button class="btn-today" onclick="setCurrentMonth()">เดือนนี้</button>
+                <button class="btn-year" onclick="setCurrentYear()">ปีนี้</button>
             </div>
         </div>
 
-        <!-- กล่องแสดงยอดขายจริง -->
-        <div class="real-sales-box">
-            <div class="real-sales-label">
-                <i class="fa-solid fa-circle-check"></i> ยอดขายจริง (ยอดรับเงินแล้ว)
+        <!-- กล่องแสดงยอดขายรวม + ยอดรับแล้ว + ยอดค้างรวม -->
+        <div class="summary-grid">
+            <div class="summary-box total">
+                <div class="summary-label">
+                    <i class="fa-solid fa-calculator"></i> ยอดขายรวมทั้งหมด
+                </div>
+                <div class="summary-value" id="stat-total-sales">0 ฿</div>
             </div>
-            <div class="real-sales-value" id="stat-real-sales">0 ฿</div>
+            <div class="summary-box paid">
+                <div class="summary-label">
+                    <i class="fa-solid fa-circle-check"></i> ยอดรับเงินแล้ว
+                </div>
+                <div class="summary-value" id="stat-real-sales">0 ฿</div>
+            </div>
+            <div class="summary-box remaining">
+                <div class="summary-label">
+                    <i class="fa-solid fa-clock"></i> ยอดค้างชำระรวม
+                </div>
+                <div class="summary-value" id="stat-remaining-sales">0 ฿</div>
+            </div>
+        </div>
+
+        <!-- Dashboard แยกช่องทาง FB vs Agoda -->
+        <div class="channel-grid">
+            <!-- FB Card -->
+            <div class="channel-card">
+                <div class="channel-header fb">
+                    <div class="channel-title">
+                        <img src="images/fb.png" class="channel-logo-img" alt="Facebook" />
+                        <span>Facebook</span>
+                    </div>
+                    <span id="fb-count">0 รายการ</span>
+                </div>
+                <div class="channel-stat-row">
+                    <span class="channel-stat-label">ยอดขายรวม:</span>
+                    <span class="channel-stat-val" id="fb-total">0 ฿</span>
+                </div>
+                <div class="channel-stat-row">
+                    <span class="channel-stat-label">รับเงินแล้ว:</span>
+                    <span class="channel-stat-val" style="color: var(--success);" id="fb-paid">0 ฿</span>
+                </div>
+                <div class="channel-stat-row">
+                    <span class="channel-stat-label">ค้างชำระ:</span>
+                    <span class="channel-stat-val" style="color: var(--danger);" id="fb-remaining">0 ฿</span>
+                </div>
+            </div>
+
+            <!-- Agoda Card -->
+            <div class="channel-card">
+                <div class="channel-header agoda">
+                    <div class="channel-title">
+                        <img src="images/Agoda.png" class="channel-logo-img" alt="Agoda" />
+                        <span>Agoda</span>
+                    </div>
+                    <span id="agoda-count">0 รายการ</span>
+                </div>
+                <div class="channel-stat-row">
+                    <span class="channel-stat-label">ยอดขายรวม:</span>
+                    <span class="channel-stat-val" id="agoda-total">0 ฿</span>
+                </div>
+                <div class="channel-stat-row">
+                    <span class="channel-stat-label">รับเงินแล้ว:</span>
+                    <span class="channel-stat-val" style="color: var(--success);" id="agoda-paid">0 ฿</span>
+                </div>
+                <div class="channel-stat-row">
+                    <span class="channel-stat-label">ค้างชำระ:</span>
+                    <span class="channel-stat-val" style="color: var(--danger);" id="agoda-remaining">0 ฿</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -450,7 +624,7 @@
         const yearSelect = document.getElementById('year-select');
 
         yearSelect.innerHTML = '';
-        for (let y = currentYear - 1; y <= currentYear + 2; y++) {
+        for (let y = currentYear - 2; y <= currentYear + 2; y++) {
             const opt = document.createElement('option');
             opt.value = y;
             opt.innerText = y + 543;
@@ -464,6 +638,13 @@
     function setCurrentMonth() {
         const today = new Date();
         document.getElementById('month-select').value = today.getMonth();
+        document.getElementById('year-select').value = today.getFullYear();
+        filterDataByMonth();
+    }
+
+    function setCurrentYear() {
+        const today = new Date();
+        document.getElementById('month-select').value = 'all';
         document.getElementById('year-select').value = today.getFullYear();
         filterDataByMonth();
     }
@@ -486,7 +667,6 @@
         return cleaned;
     }
 
-    // 📌 แก้ไขฟังก์ชันแปลงวันที่ สำหรับ All-Day Event ของ Google Calendar
     function formatDate(isoString, isEndDate = false) {
         if (!isoString) return '-';
         const isAllDay = isoString.length === 10;
@@ -526,14 +706,24 @@
                 });
             });
 
-            // 2. ดึงข้อมูลรายละเอียดลูกค้า (สีน้ำเงิน)
+            // 2. ดึงข้อมูลรายละเอียดลูกค้า
             rawBookingData = (dataDetail.items || []).map(event => {
                 const rawSummary = (event.summary || '').trim();
                 const desc = event.description || '';
 
                 const [summaryPart, notePart] = rawSummary.split('/');
-                const summary = summaryPart ? summaryPart.trim() : '';
+                let summary = summaryPart ? summaryPart.trim() : '';
                 const note = notePart ? notePart.trim() : '';
+
+                // แยก Channel (agoda / fb / อื่นๆ)
+                let channel = 'other';
+                if (/^agoda/i.test(summary)) {
+                    channel = 'agoda';
+                    summary = summary.replace(/^agoda\s*\/\s*/i, '').trim();
+                } else if (/^fb/i.test(summary)) {
+                    channel = 'fb';
+                    summary = summary.replace(/^fb\s*\/\s*/i, '').trim();
+                }
 
                 let customerName = 'ไม่ระบุชื่อ';
                 let phone = '';
@@ -579,13 +769,14 @@
                     title: customerName,
                     start: startDateStr,
                     end: endDateStr,
-                    backgroundColor: '#4318ff',
-                    borderColor: '#4318ff',
+                    backgroundColor: channel === 'agoda' ? '#3252a8' : (channel === 'fb' ? '#1877f2' : '#4318ff'),
+                    borderColor: channel === 'agoda' ? '#3252a8' : (channel === 'fb' ? '#1877f2' : '#4318ff'),
                     order: 2
                 });
 
                 return {
                     title: customerName,
+                    channel: channel,
                     note: note,
                     price: totalPrice,
                     deposit: depositPrice,
@@ -627,29 +818,79 @@
     }
 
     function filterDataByMonth() {
-        const selectedMonth = parseInt(document.getElementById('month-select').value);
+        const selectedMonthVal = document.getElementById('month-select').value;
         const selectedYear = parseInt(document.getElementById('year-select').value);
 
         if (calendarInstance) {
-            const targetDate = new Date(selectedYear, selectedMonth, 1);
+            const m = selectedMonthVal === 'all' ? 0 : parseInt(selectedMonthVal);
+            const targetDate = new Date(selectedYear, m, 1);
             calendarInstance.gotoDate(targetDate);
         }
 
+        let sumTotalPrice = 0;
         let sumRealSales = 0;
+        let sumRemaining = 0;
+
+        let channelStats = {
+            fb: { count: 0, total: 0, paid: 0, remaining: 0 },
+            agoda: { count: 0, total: 0, paid: 0, remaining: 0 }
+        };
 
         const filteredList = rawBookingData.filter(item => {
             const itemMonth = item.startDateObj.getMonth();
             const itemYear = item.startDateObj.getFullYear();
-            return itemMonth === selectedMonth && itemYear === selectedYear;
+
+            if (selectedMonthVal === 'all') {
+                return itemYear === selectedYear;
+            } else {
+                return itemMonth === parseInt(selectedMonthVal) && itemYear === selectedYear;
+            }
         });
 
         filteredList.sort((a, b) => a.startDateObj - b.startDateObj);
 
         filteredList.forEach(item => {
+            sumTotalPrice += item.price;
             sumRealSales += item.deposit;
+            sumRemaining += item.remaining;
+
+            if (item.channel === 'fb') {
+                channelStats.fb.count++;
+                channelStats.fb.total += item.price;
+                channelStats.fb.paid += item.deposit;
+                channelStats.fb.remaining += item.remaining;
+            } else if (item.channel === 'agoda') {
+                channelStats.agoda.count++;
+                channelStats.agoda.total += item.price;
+                channelStats.agoda.paid += item.deposit;
+                channelStats.agoda.remaining += item.remaining;
+            }
         });
 
+        // อัปเดตข้อความหัวข้อว่าเลือกดูรายเดือนหรือรายปี
+        const filterTitleLabel = document.getElementById('filter-title-label');
+        if (selectedMonthVal === 'all') {
+            filterTitleLabel.innerText = 'สรุปยอดขายประจำปี:';
+        } else {
+            filterTitleLabel.innerText = 'สรุปยอดขายประจำเดือน:';
+        }
+
+        // อัปเดตยอดรวมใหญ่ 3 ช่อง
+        document.getElementById('stat-total-sales').innerText = sumTotalPrice.toLocaleString() + ' ฿';
         document.getElementById('stat-real-sales').innerText = sumRealSales.toLocaleString() + ' ฿';
+        document.getElementById('stat-remaining-sales').innerText = sumRemaining.toLocaleString() + ' ฿';
+
+        // อัปเดต Dashboard FB
+        document.getElementById('fb-count').innerText = channelStats.fb.count + ' รายการ';
+        document.getElementById('fb-total').innerText = channelStats.fb.total.toLocaleString() + ' ฿';
+        document.getElementById('fb-paid').innerText = channelStats.fb.paid.toLocaleString() + ' ฿';
+        document.getElementById('fb-remaining').innerText = channelStats.fb.remaining.toLocaleString() + ' ฿';
+
+        // อัปเดต Dashboard Agoda
+        document.getElementById('agoda-count').innerText = channelStats.agoda.count + ' รายการ';
+        document.getElementById('agoda-total').innerText = channelStats.agoda.total.toLocaleString() + ' ฿';
+        document.getElementById('agoda-paid').innerText = channelStats.agoda.paid.toLocaleString() + ' ฿';
+        document.getElementById('agoda-remaining').innerText = channelStats.agoda.remaining.toLocaleString() + ' ฿';
 
         renderFinancialList(filteredList);
     }
@@ -659,7 +900,7 @@
         container.innerHTML = '';
 
         if (items.length === 0) {
-            container.innerHTML = '<div class="loading-state">ไม่มีรายการจองในเดือนที่เลือก</div>';
+            container.innerHTML = '<div class="loading-state">ไม่มีรายการจองในช่วงเวลาที่เลือก</div>';
             return;
         }
 
@@ -667,7 +908,15 @@
             const isFullyPaid = item.remaining <= 0;
             const badgeClass = isFullyPaid ? 'badge-paid' : 'badge-pending';
             const badgeText = isFullyPaid ? 'จ่ายครบแล้ว' : 'ค้างชำระ';
-            const paidCardClass = isFullyPaid ? 'card-paid-full' : ''; // 📌 ใส่ Class ไฮไลต์สีเขียว
+            const paidCardClass = isFullyPaid ? 'card-paid-full' : '';
+
+            // แสดง Tag ช่องทางพร้อมรูปภาพขนาดชัดเจน
+            let channelTagHtml = '';
+            if (item.channel === 'fb') {
+                channelTagHtml = '<span class="channel-tag fb"><img src="images/fb.png" class="tag-img" alt="FB" /> FB</span>';
+            } else if (item.channel === 'agoda') {
+                channelTagHtml = '<span class="channel-tag agoda"><img src="images/Agoda.png" class="tag-img" alt="Agoda" /> Agoda</span>';
+            }
 
             const noteHtml = item.note ? `<span class="note-badge"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : '';
 
@@ -676,6 +925,7 @@
             card.innerHTML = `
                 <div class="card-top">
                     <div class="customer-name-group">
+                        ${channelTagHtml}
                         <span class="customer-name">${item.title}</span>
                         ${noteHtml}
                     </div>
