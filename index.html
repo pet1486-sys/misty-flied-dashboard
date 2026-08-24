@@ -49,7 +49,10 @@
         /* Header Bar */
         .app-header {
             margin-bottom: 12px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
         }
 
         .app-title {
@@ -58,8 +61,29 @@
             color: var(--text-main);
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
+        }
+
+        .btn-refresh {
+            background: #ffffff;
+            color: var(--primary-color);
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .btn-refresh:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
         }
 
         /* ตัวกรองเลือกเดือน/ปี */
@@ -121,10 +145,7 @@
             transition: all 0.2s ease;
         }
 
-        .btn-year {
-            background: #64748b;
-        }
-
+        .btn-year { background: #64748b; }
         .btn-today:hover { background: var(--primary-hover); }
         .btn-year:hover { background: #475569; }
 
@@ -143,25 +164,10 @@
             justify-content: center;
         }
 
-        .summary-box.days {
-            background: #f0f4ff;
-            border: 1px solid #c7d7fe;
-        }
-
-        .summary-box.total {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-        }
-
-        .summary-box.paid {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-        }
-
-        .summary-box.remaining {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-        }
+        .summary-box.days { background: #f0f4ff; border: 1px solid #c7d7fe; }
+        .summary-box.total { background: #f1f5f9; border: 1px solid #cbd5e1; }
+        .summary-box.paid { background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .summary-box.remaining { background: #fef2f2; border: 1px solid #fecaca; }
 
         .summary-label {
             font-size: 0.65rem;
@@ -187,7 +193,7 @@
         .summary-box.paid .summary-value { color: var(--success); }
         .summary-box.remaining .summary-value { color: var(--danger); }
 
-        /* ส่วนแสดงสถิติวันในสัปดาห์ (จ.-อา.) */
+        /* สถิติวันในสัปดาห์ */
         .weekday-stat-box {
             background: #f8fafc;
             border-radius: 10px;
@@ -225,19 +231,9 @@
             gap: 2px;
         }
 
-        .day-pill-name {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: #475569;
-        }
+        .day-pill-name { font-size: 0.65rem; font-weight: 700; color: #475569; }
+        .day-pill-val { font-size: 0.85rem; font-weight: 700; color: var(--primary-color); }
 
-        .day-pill-val {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        /* 📌 ปรับให้แยกแถวละช่องทาง ชัดเจน เห็นโลโก้ใหญ่ขึ้น */
         .day-pill-breakdown {
             display: flex;
             flex-direction: column;
@@ -258,18 +254,11 @@
             width: 100%;
         }
 
-        .mini-icon {
-            width: 15px;
-            height: 15px;
-            object-fit: contain;
-            border-radius: 3px;
-            flex-shrink: 0;
-        }
-
+        .mini-icon { width: 15px; height: 15px; object-fit: contain; border-radius: 3px; flex-shrink: 0; }
         .fb-sub { color: var(--fb-color); }
         .agoda-sub { color: var(--agoda-color); }
 
-        /* Dashboard แยกตามช่องทาง (Agoda vs Facebook) */
+        /* Dashboard FB vs Agoda */
         .channel-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -295,29 +284,12 @@
             border-bottom: 1px dashed #cbd5e1;
         }
 
-        .channel-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .channel-title { display: flex; align-items: center; gap: 8px; }
         .channel-header.fb { color: var(--fb-color); }
         .channel-header.agoda { color: var(--agoda-color); }
 
-        .channel-logo-img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-            border-radius: 6px;
-        }
-
-        .channel-stat-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.72rem;
-            margin-bottom: 2px;
-        }
-
+        .channel-logo-img { width: 28px; height: 28px; object-fit: contain; border-radius: 6px; }
+        .channel-stat-row { display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 2px; }
         .channel-stat-label { color: #64748b; }
         .channel-stat-val { font-weight: 600; }
 
@@ -358,8 +330,8 @@
 
         .booking-card.card-paid-full {
             background-color: #f0fdf4;
-            border: 1.5px solid #86efac;
-            box-shadow: 0 2px 8px rgba(5, 205, 153, 0.12);
+            border: 1px solid #bbf7d0;
+            padding: 8px 10px;
         }
 
         .card-top {
@@ -380,26 +352,17 @@
         .channel-tag {
             font-size: 0.7rem;
             font-weight: 700;
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 6px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
         .channel-tag.fb { background-color: #e7f3ff; color: var(--fb-color); border: 1px solid #bcdcff; }
         .channel-tag.agoda { background-color: #f0f4ff; color: var(--agoda-color); border: 1px solid #c7d7fe; }
 
-        .channel-tag .tag-img {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-        }
-
-        .customer-name {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+        .channel-tag .tag-img { width: 16px; height: 16px; object-fit: contain; }
+        .customer-name { font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
 
         .note-badge {
             font-size: 0.65rem;
@@ -445,16 +408,8 @@
             gap: 4px;
         }
 
-        .booking-detail i {
-            font-size: 0.7rem;
-            color: #94a3b8;
-        }
-
-        .no-phone {
-            color: var(--danger);
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
+        .booking-detail i { font-size: 0.7rem; color: #94a3b8; }
+        .no-phone { color: var(--danger); font-weight: 700; font-size: 0.85rem; }
 
         .finance-box {
             background: #f8fafc;
@@ -466,11 +421,6 @@
             text-align: center;
         }
 
-        .booking-card.card-paid-full .finance-box {
-            background: #ffffff;
-            border: 1px solid #dcfce7;
-        }
-
         .f-item { display: flex; flex-direction: column; }
         .f-label { font-size: 0.6rem; color: #94a3b8; }
         .f-amount { font-size: 0.8rem; font-weight: 700; }
@@ -478,6 +428,76 @@
         .f-total { color: var(--text-main); }
         .f-deposit { color: var(--success); }
         .f-remaining { color: var(--danger); }
+
+        /* 📌 ปุ่ม toggle ขยายการ์ด */
+        .btn-toggle-expand {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 2px 4px;
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+        .btn-toggle-expand:hover { color: var(--primary-color); }
+
+        /* 📌 กล่องใหญ่ พับเก็บรายการที่จ่ายครบแล้ว */
+        .paid-collapsible-wrapper {
+            margin-top: 10px;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            background: #f0fdf4;
+            overflow: hidden;
+        }
+
+        .paid-collapsible-header {
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            background: #e6f4ea;
+        }
+
+        .paid-summary-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #166534;
+        }
+
+        .paid-collapsible-content {
+            padding: 10px;
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 8px;
+            background: #f0fdf4;
+            border-top: 1px dashed #bbf7d0;
+        }
+
+        .paid-collapsible-wrapper.active .paid-collapsible-content {
+            display: grid;
+        }
+
+        .paid-collapsible-wrapper.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .compact-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            border-top: 1px dashed #dcfce7;
+            padding-top: 4px;
+            margin-top: 4px;
+        }
+
+        .compact-amount { font-weight: 700; color: var(--success); }
+        .compact-date { color: #64748b; font-size: 0.7rem; }
 
         /* FullCalendar Custom Style */
         .fc {
@@ -487,34 +507,11 @@
             --fc-button-hover-bg-color: var(--primary-hover);
         }
 
-        .fc .fc-toolbar-title {
-            font-size: 0.9rem !important;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .fc .fc-button {
-            padding: 3px 6px !important;
-            font-size: 0.7rem !important;
-            border-radius: 6px !important;
-        }
-
-        .fc .fc-col-header-cell {
-            padding: 4px 0 !important;
-            background: #f8fafc;
-            color: #475569;
-            font-weight: 600;
-            font-size: 0.7rem;
-        }
-
-        .fc .fc-scroller {
-            overflow: hidden !important;
-        }
-
-        .fc .fc-daygrid-day-frame {
-            min-height: auto !important;
-            padding: 1px !important;
-        }
+        .fc .fc-toolbar-title { font-size: 0.9rem !important; font-weight: 700; color: var(--text-main); }
+        .fc .fc-button { padding: 3px 6px !important; font-size: 0.7rem !important; border-radius: 6px !important; }
+        .fc .fc-col-header-cell { padding: 4px 0 !important; background: #f8fafc; color: #475569; font-weight: 600; font-size: 0.7rem; }
+        .fc .fc-scroller { overflow: hidden !important; }
+        .fc .fc-daygrid-day-frame { min-height: auto !important; padding: 1px !important; }
 
         .fc .fc-daygrid-day-number {
             font-size: 0.7rem;
@@ -525,10 +522,7 @@
             width: 100%;
         }
 
-        .fc .fc-day-today {
-            background-color: #f8fafc !important;
-        }
-
+        .fc .fc-day-today { background-color: #f8fafc !important; }
         .fc .fc-day-today .fc-daygrid-day-number {
             background-color: var(--primary-color);
             color: #fff;
@@ -571,6 +565,7 @@
             body { padding: 4px; }
             .summary-grid { grid-template-columns: repeat(2, 1fr); }
             .booking-grid { grid-template-columns: 1fr; }
+            .paid-collapsible-content { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -578,12 +573,16 @@
 
 <div class="container">
 
-    <!-- Header -->
+    <!-- Header + ปุ่มรีเฟรช -->
     <header class="app-header">
         <h1 class="app-title">
             <i class="fa-solid fa-house-chimney-window" style="color: var(--primary-color);"></i>
             Misty Field Poolvilla ข้อมูลการจอง
         </h1>
+        <button class="btn-refresh" onclick="refreshDashboard()" id="refresh-btn">
+            <i class="fa-solid fa-rotate-right" id="refresh-icon"></i>
+            <span>รีเฟรช</span>
+        </button>
     </header>
 
     <!-- ตัวกรอง + สรุปยอดขายรวมประจำเดือน/ปี -->
@@ -618,32 +617,24 @@
         <!-- กล่องแสดงจำนวนวันรวม + ยอดขายรวม + ยอดรับแล้ว + ยอดค้างรวม -->
         <div class="summary-grid">
             <div class="summary-box days">
-                <div class="summary-label">
-                    <i class="fa-regular fa-sun"></i> วันเข้าพักรวม
-                </div>
+                <div class="summary-label"><i class="fa-regular fa-sun"></i> วันเข้าพักรวม</div>
                 <div class="summary-value" id="stat-total-days">0 วัน</div>
             </div>
             <div class="summary-box total">
-                <div class="summary-label">
-                    <i class="fa-solid fa-calculator"></i> ยอดขายรวม
-                </div>
+                <div class="summary-label"><i class="fa-solid fa-calculator"></i> ยอดขายรวม</div>
                 <div class="summary-value" id="stat-total-sales">0 ฿</div>
             </div>
             <div class="summary-box paid">
-                <div class="summary-label">
-                    <i class="fa-solid fa-circle-check"></i> ยอดรับแล้ว
-                </div>
+                <div class="summary-label"><i class="fa-solid fa-circle-check"></i> ยอดรับแล้ว</div>
                 <div class="summary-value" id="stat-real-sales">0 ฿</div>
             </div>
             <div class="summary-box remaining">
-                <div class="summary-label">
-                    <i class="fa-solid fa-clock"></i> ยอดค้างชำระ
-                </div>
+                <div class="summary-label"><i class="fa-solid fa-clock"></i> ยอดค้างชำระ</div>
                 <div class="summary-value" id="stat-remaining-sales">0 ฿</div>
             </div>
         </div>
 
-        <!-- สถิติแยกวัน จันทร์-อาทิตย์ (แยกบรรทัด FB และ Agoda ชัดเจน) -->
+        <!-- สถิติแยกวัน จันทร์-อาทิตย์ -->
         <div class="weekday-stat-box">
             <div class="weekday-title">
                 <i class="fa-regular fa-calendar-days" style="color: var(--primary-color);"></i>
@@ -711,7 +702,6 @@
 
         <!-- Dashboard แยกช่องทาง FB vs Agoda -->
         <div class="channel-grid">
-            <!-- FB Card -->
             <div class="channel-card">
                 <div class="channel-header fb">
                     <div class="channel-title">
@@ -738,7 +728,6 @@
                 </div>
             </div>
 
-            <!-- Agoda Card -->
             <div class="channel-card">
                 <div class="channel-header agoda">
                     <div class="channel-title">
@@ -773,7 +762,7 @@
             <i class="fa-solid fa-receipt" style="color: var(--primary-color);"></i>
             รายละเอียดลูกค้าและการชำระเงิน
         </div>
-        <div id="booking-list" class="booking-grid">
+        <div id="booking-list">
             <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> กำลังโหลดข้อมูล...</div>
         </div>
     </div>
@@ -878,6 +867,13 @@
         return name.replace(/^(fb|agoda)\s*[\/-]?\s*/i, '').trim();
     }
 
+    async function refreshDashboard() {
+        const icon = document.getElementById('refresh-icon');
+        icon.classList.add('fa-spin');
+        await loadDashboard();
+        setTimeout(() => icon.classList.remove('fa-spin'), 400);
+    }
+
     async function loadDashboard() {
         try {
             initDateFilter();
@@ -892,7 +888,6 @@
 
             const combinedEvents = [];
 
-            // 1. ดึงแถบสถานะวันจอง (สีแดง)
             (dataBooking.items || []).forEach(event => {
                 const titleText = event.summary ? event.summary.split('|')[0].trim() : 'จอง';
                 combinedEvents.push({
@@ -905,8 +900,10 @@
                 });
             });
 
-            // 2. ดึงข้อมูลรายละเอียดลูกค้า
-            rawBookingData = (dataDetail.items || []).map(event => {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            rawBookingData = (dataDetail.items || []).map((event, index) => {
                 const rawSummary = (event.summary || '').trim();
                 const desc = event.description || '';
 
@@ -914,7 +911,6 @@
                 let summary = summaryPart ? summaryPart.trim() : '';
                 const note = notePart ? notePart.trim() : '';
 
-                // แยก Channel (agoda / fb / อื่นๆ)
                 let channel = 'other';
                 if (/^agoda/i.test(summary)) {
                     channel = 'agoda';
@@ -965,6 +961,14 @@
                 const endDateStr = event.end.date || event.end.dateTime;
                 const daysCount = calculateDays(startDateStr, endDateStr);
 
+                const bookingStartDate = new Date(startDateStr);
+                bookingStartDate.setHours(0, 0, 0, 0);
+
+                if (bookingStartDate < today) {
+                    depositPrice = totalPrice;
+                    remainingPrice = 0;
+                }
+
                 combinedEvents.push({
                     title: customerName,
                     start: startDateStr,
@@ -975,6 +979,7 @@
                 });
 
                 return {
+                    id: 'booking-' + index,
                     title: customerName,
                     channel: channel,
                     note: note,
@@ -1005,6 +1010,9 @@
 
     function renderUpperCalendar(events) {
         const calendarEl = document.getElementById('calendar');
+        if (calendarInstance) {
+            calendarInstance.destroy();
+        }
         calendarInstance = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             locale: 'th',
@@ -1063,10 +1071,9 @@
             sumRealSales += item.deposit;
             sumRemaining += item.remaining;
 
-            // คำนวณวันเข้าพักแยกตามวันในสัปดาห์ (จ.-อา.) และจำแนกช่องทาง FB/Agoda
             let curr = new Date(item.startDateStr);
             for (let i = 0; i < item.days; i++) {
-                const dayOfWeek = curr.getDay(); // 0 = อาทิตย์, 1 = จันทร์, ...
+                const dayOfWeek = curr.getDay();
                 weekdayCounts[dayOfWeek]++;
                 if (item.channel === 'fb') weekdayFbCounts[dayOfWeek]++;
                 if (item.channel === 'agoda') weekdayAgodaCounts[dayOfWeek]++;
@@ -1088,7 +1095,6 @@
             }
         });
 
-        // อัปเดตข้อความหัวข้อ
         const filterTitleLabel = document.getElementById('filter-title-label');
         if (selectedMonthVal === 'all') {
             filterTitleLabel.innerText = 'สรุปยอดขายประจำปี:';
@@ -1096,27 +1102,23 @@
             filterTitleLabel.innerText = 'สรุปยอดขายประจำเดือน:';
         }
 
-        // อัปเดตยอดรวม 4 ช่องด้านบน
         document.getElementById('stat-total-days').innerText = sumDays.toLocaleString() + ' วัน';
         document.getElementById('stat-total-sales').innerText = sumTotalPrice.toLocaleString() + ' ฿';
         document.getElementById('stat-real-sales').innerText = sumRealSales.toLocaleString() + ' ฿';
         document.getElementById('stat-remaining-sales').innerText = sumRemaining.toLocaleString() + ' ฿';
 
-        // อัปเดตสถิติสัปดาห์ (จ.-อา.) พร้อมใส่ตัวเลขข้างไอคอนโลโก้
         for (let d = 0; d <= 6; d++) {
             document.getElementById(`day-val-${d}`).innerText = weekdayCounts[d];
             document.getElementById(`day-fb-${d}`).innerText = weekdayFbCounts[d];
             document.getElementById(`day-agoda-${d}`).innerText = weekdayAgodaCounts[d];
         }
 
-        // อัปเดต Dashboard FB
         document.getElementById('fb-count').innerText = channelStats.fb.count + ' รายการ';
         document.getElementById('fb-days').innerText = channelStats.fb.days.toLocaleString() + ' วัน';
         document.getElementById('fb-total').innerText = channelStats.fb.total.toLocaleString() + ' ฿';
         document.getElementById('fb-paid').innerText = channelStats.fb.paid.toLocaleString() + ' ฿';
         document.getElementById('fb-remaining').innerText = channelStats.fb.remaining.toLocaleString() + ' ฿';
 
-        // อัปเดต Dashboard Agoda
         document.getElementById('agoda-count').innerText = channelStats.agoda.count + ' รายการ';
         document.getElementById('agoda-days').innerText = channelStats.agoda.days.toLocaleString() + ' วัน';
         document.getElementById('agoda-total').innerText = channelStats.agoda.total.toLocaleString() + ' ฿';
@@ -1124,6 +1126,111 @@
         document.getElementById('agoda-remaining').innerText = channelStats.agoda.remaining.toLocaleString() + ' ฿';
 
         renderFinancialList(filteredList);
+    }
+
+    function togglePaidSection() {
+        const wrapper = document.getElementById('paid-wrapper');
+        if (wrapper) wrapper.classList.toggle('active');
+    }
+
+    function toggleCardExpand(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+
+        const isExpanded = card.getAttribute('data-expanded') === 'true';
+        const item = rawBookingData.find(i => i.id === cardId);
+        if (!item) return;
+
+        if (isExpanded) {
+            // ย่อการ์ดกลับเป็นเวอร์ชันสั้น
+            card.setAttribute('data-expanded', 'false');
+            card.innerHTML = createCompactCardHtml(item);
+        } else {
+            // ขยายการ์ดเป็นเวอร์ชันเต็ม
+            card.setAttribute('data-expanded', 'true');
+            card.innerHTML = createFullCardHtml(item);
+        }
+    }
+
+    function createChannelTag(channel) {
+        if (channel === 'fb') return '<span class="channel-tag fb"><img src="images/fb.png" class="tag-img" alt="FB" /> FB</span>';
+        if (channel === 'agoda') return '<span class="channel-tag agoda"><img src="images/Agoda.png" class="tag-img" alt="Agoda" /> Agoda</span>';
+        return '';
+    }
+
+    function createCompactCardHtml(item) {
+        const channelTagHtml = createChannelTag(item.channel);
+        const noteHtml = item.note ? `<span class="note-badge"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : '';
+        return `
+            <div class="card-top">
+                <div class="customer-name-group">
+                    ${channelTagHtml}
+                    <span class="customer-name">${item.title}</span>
+                    ${noteHtml}
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <span class="status-badge badge-paid">จ่ายครบแล้ว</span>
+                    <button class="btn-toggle-expand" onclick="toggleCardExpand('${item.id}')" title="ขยายดูข้อมูล">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="compact-info">
+                <span class="compact-date"><i class="fa-regular fa-calendar"></i> ${item.start} (${item.days} วัน)</span>
+                <span class="compact-amount">฿${item.price.toLocaleString()}</span>
+            </div>
+        `;
+    }
+
+    function createFullCardHtml(item) {
+        const isFullyPaid = item.remaining <= 0;
+        const badgeClass = isFullyPaid ? 'badge-paid' : 'badge-pending';
+        const badgeText = isFullyPaid ? 'จ่ายครบแล้ว' : 'ค้างชำระ';
+        const channelTagHtml = createChannelTag(item.channel);
+        const noteHtml = item.note ? `<span class="note-badge"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : '';
+        
+        const toggleBtnHtml = isFullyPaid ? `
+            <button class="btn-toggle-expand" onclick="toggleCardExpand('${item.id}')" title="ย่อการ์ด" style="transform: rotate(180deg);">
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>` : '';
+
+        return `
+            <div class="card-top">
+                <div class="customer-name-group">
+                    ${channelTagHtml}
+                    <span class="customer-name">${item.title}</span>
+                    ${noteHtml}
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <span class="status-badge ${badgeClass}">${badgeText}</span>
+                    ${toggleBtnHtml}
+                </div>
+            </div>
+            <div class="booking-detail">
+                <i class="fa-regular fa-calendar"></i>
+                <span>${item.start} - ${item.end}</span>
+                <span class="day-badge"><i class="fa-regular fa-sun"></i> ${item.days} วัน</span>
+            </div>
+            <div class="booking-detail">
+                <i class="fa-solid fa-phone"></i>
+                <span>${item.phone}</span>
+            </div>
+            
+            <div class="finance-box">
+                <div class="f-item">
+                    <span class="f-label">ราคารวม</span>
+                    <span class="f-amount f-total">${item.price.toLocaleString()}</span>
+                </div>
+                <div class="f-item">
+                    <span class="f-label">จ่ายแล้ว</span>
+                    <span class="f-amount f-deposit">${item.deposit.toLocaleString()}</span>
+                </div>
+                <div class="f-item">
+                    <span class="f-label">คงเหลือ</span>
+                    <span class="f-amount f-remaining">${item.remaining.toLocaleString()}</span>
+                </div>
+            </div>
+        `;
     }
 
     function renderFinancialList(items) {
@@ -1135,59 +1242,55 @@
             return;
         }
 
-        items.forEach(item => {
-            const isFullyPaid = item.remaining <= 0;
-            const badgeClass = isFullyPaid ? 'badge-paid' : 'badge-pending';
-            const badgeText = isFullyPaid ? 'จ่ายครบแล้ว' : 'ค้างชำระ';
-            const paidCardClass = isFullyPaid ? 'card-paid-full' : '';
+        const pendingItems = items.filter(i => i.remaining > 0);
+        const paidItems = items.filter(i => i.remaining <= 0);
 
-            let channelTagHtml = '';
-            if (item.channel === 'fb') {
-                channelTagHtml = '<span class="channel-tag fb"><img src="images/fb.png" class="tag-img" alt="FB" /> FB</span>';
-            } else if (item.channel === 'agoda') {
-                channelTagHtml = '<span class="channel-tag agoda"><img src="images/Agoda.png" class="tag-img" alt="Agoda" /> Agoda</span>';
-            }
+        // 1. แสดงรายการ "ค้างชำระ" ไว้ด้านบนเสมอ
+        if (pendingItems.length > 0) {
+            const pendingGrid = document.createElement('div');
+            pendingGrid.className = 'booking-grid';
+            pendingItems.forEach(item => {
+                const card = document.createElement('div');
+                card.id = item.id;
+                card.className = 'booking-card';
+                card.innerHTML = createFullCardHtml(item);
+                pendingGrid.appendChild(card);
+            });
+            container.appendChild(pendingGrid);
+        }
 
-            const noteHtml = item.note ? `<span class="note-badge"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : '';
+        // 2. แสดงรายการ "จ่ายครบแล้ว" ย่อไว้ในกล่องเดียวที่เปิดปิดได้
+        if (paidItems.length > 0) {
+            const totalPaidAmount = paidItems.reduce((sum, item) => sum + item.price, 0);
 
-            const card = document.createElement('div');
-            card.className = `booking-card ${paidCardClass}`;
-            card.innerHTML = `
-                <div class="card-top">
-                    <div class="customer-name-group">
-                        ${channelTagHtml}
-                        <span class="customer-name">${item.title}</span>
-                        ${noteHtml}
+            const paidWrapper = document.createElement('div');
+            paidWrapper.id = 'paid-wrapper';
+            paidWrapper.className = 'paid-collapsible-wrapper';
+
+            paidWrapper.innerHTML = `
+                <div class="paid-collapsible-header" onclick="togglePaidSection()">
+                    <div class="paid-summary-info">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>จ่ายครบแล้ว (${paidItems.length} รายการ)</span>
+                        <span style="color: #475569; font-weight: 500;">| ได้รับเงิน: ฿${totalPaidAmount.toLocaleString()}</span>
                     </div>
-                    <span class="status-badge ${badgeClass}">${badgeText}</span>
+                    <i class="fa-solid fa-chevron-down toggle-icon" style="color: #166534; transition: transform 0.2s ease;"></i>
                 </div>
-                <div class="booking-detail">
-                    <i class="fa-regular fa-calendar"></i>
-                    <span>${item.start} - ${item.end}</span>
-                    <span class="day-badge"><i class="fa-regular fa-sun"></i> ${item.days} วัน</span>
-                </div>
-                <div class="booking-detail">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>${item.phone}</span>
-                </div>
-                
-                <div class="finance-box">
-                    <div class="f-item">
-                        <span class="f-label">ราคารวม</span>
-                        <span class="f-amount f-total">${item.price.toLocaleString()}</span>
-                    </div>
-                    <div class="f-item">
-                        <span class="f-label">จ่ายแล้ว</span>
-                        <span class="f-amount f-deposit">${item.deposit.toLocaleString()}</span>
-                    </div>
-                    <div class="f-item">
-                        <span class="f-label">คงเหลือ</span>
-                        <span class="f-amount f-remaining">${item.remaining.toLocaleString()}</span>
-                    </div>
-                </div>
+                <div class="paid-collapsible-content" id="paid-content"></div>
             `;
-            container.appendChild(card);
-        });
+
+            container.appendChild(paidWrapper);
+
+            const paidContent = paidWrapper.querySelector('#paid-content');
+            paidItems.forEach(item => {
+                const card = document.createElement('div');
+                card.id = item.id;
+                card.className = 'booking-card card-paid-full';
+                card.setAttribute('data-expanded', 'false');
+                card.innerHTML = createCompactCardHtml(item);
+                paidContent.appendChild(card);
+            });
+        }
     }
 
     loadDashboard();
